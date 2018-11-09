@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 from numpy import array, linalg, matrix
 from scipy.special import comb as nOk
-from PIL import Image
+
 import os
 from pathlib import Path
 from itertools import product, combinations
@@ -324,6 +324,7 @@ all_lane_type = [ii for ii in all_lane_type if ii[0].split(
 all_lane_type = [ii for ii in all_lane_type if ii[1] in allowed_lane_style]
 all_lane_type = [ii for ii in all_lane_type if ii[2] in allowed_lane_direction]
 
+print(all_lane_type)
 #
 # bdd_root_path = Path(root_path)
 # data_path = bdd_root_path / 'bdd100k'
