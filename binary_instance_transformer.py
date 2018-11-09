@@ -305,11 +305,24 @@ timeofday = ('daytime', 'night')
 parser = argparse.ArgumentParser()
 parser.add_argument('--root_path', type=str,
                     help='The root of  dataset dir path')
-parser.add_argument('--data_target', type=str, help='train or val', default='train')
+parser.add_argument('--data_target', type=tuple, help='train or val', default=('train', 'val'))
+parser.add_argument('--timeofday', type=tuple, help='daytime or night', default=('daytime'))
+parser.add_argument('--lane_style', type=tuple, help='dashed or solid', default=('dashed', 'solid'))
+parser.add_argument('--lane_type', type=tuple, help='single or double', default=('single', 'double'))
+parser.add_argument('--lane_direction', type=tuple, help='vertical or parallel', default=('parallel'))
+
 args = parser.parse_args()
 
 root_path = args.root_path
 data_target = args.data_target
+timeofday = args.timeofday
+allowed_lane_type = args.lane_type
+allowed_lane_style = args.lane_style
+allowed_lane_direction = args.lane_direction
+all_lane_type = [ii for ii in all_lane_type if ii[0].split(
+    ' ')[0] in allowed_lane_type]
+all_lane_type = [ii for ii in all_lane_type if ii[1] in allowed_lane_style]
+all_lane_type = [ii for ii in all_lane_type if ii[2] in allowed_lane_direction]
 
 #
 # bdd_root_path = Path(root_path)
@@ -374,7 +387,7 @@ with open(save_txts[data_target], 'w') as fff:
         if len(pic_lanes):
             for ii,  pic_labels in enumerate(pic_lanes):
                 if not (ii % 500):
-            
+
                     timer(start_time, time.time())
                     print('We have processed {} pictures in {}-{}, dataset number  {}, {} remains in current dataset. total {} remains'.format(
                         ii, lane, zeit, iii, len(pic_lanes) - ii, total_in_dataset-processed))
